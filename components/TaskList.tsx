@@ -1,28 +1,26 @@
-// components/TaskList.tsx
 "use client";
 
 import { trpc } from "@/utils/trpc";
 import { useCounterStore } from "@/store/counter";
 
 export function TaskList() {
-  const utils = trpc.useContext();
-
-  const { data: tasks, isLoading } = trpc.getTasks.useQuery();
+  const { data: tasks, isPending, error } = trpc.getTasks.useQuery();
   const toggleTask = trpc.toggleTask.useMutation({
     onSuccess: () => {
-      // Updated invalidation syntax
       utils.getTasks.invalidate();
     },
   });
-
+  const utils = trpc.useContext();
   const count = useCounterStore((state) => state.count);
 
-  if (isLoading) return <div>Loading tasks...</div>;
+  if (isPending) return <div className="text-gray-600">Loading tasks...</div>;
+  if (error) return <div className="text-red-600">Error: {error.message}</div>;
+  if (!tasks) return <div className="text-gray-600">No tasks found</div>;
 
   return (
     <div className="space-y-4">
       <div className="text-sm text-gray-500">Global counter: {count}</div>
-      {tasks?.map((task) => (
+      {tasks.map((task) => (
         <div
           key={task.id}
           className="flex items-center justify-between p-4 bg-white rounded-lg shadow"
