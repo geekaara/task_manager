@@ -8,8 +8,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  url      = "postgres://postgres.mvpzknagssaqqbvyivwo:g4jqsfOK8zqDSL5u@aws-0-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&supa=base-pooler.x"
+  directUrl = "postgres://postgres.mvpzknagssaqqbvyivwo:g4jqsfOK8zqDSL5u@aws-0-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require"
 }
 
 model Task {
